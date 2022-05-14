@@ -1,3 +1,5 @@
+using DevTrackR.API.Models;
+
 namespace DevTrackR.API.Entities
 {
     public class Package
@@ -12,6 +14,16 @@ namespace DevTrackR.API.Entities
             Updates = new List<PackageUpdate>();
         }
 
+        public void AddUpdate(string status, bool delivered){
+            if(Delivered){
+                throw new Exception("Package is already delivered.");
+            }
+
+            var update = new PackageUpdate(status, Id);
+            Updates.Add(update);
+
+            Delivered = delivered;
+        }
         public int Id { get; private set; }
         public string Code { get; private set; }
         public string Title { get; private set; }
