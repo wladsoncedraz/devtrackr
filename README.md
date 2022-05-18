@@ -17,3 +17,7 @@ Foi desenvolvida uma API REST completa de gerenciamento de pacotes.
 ## Funcionalidades
 - Cadastro, Listagem, Detalhes de Pacote
 - Cadastro de Atualização de Pacote
+
+## Comandos auxiliares
+- dotnet user-secrets
+- dotnet ef migrations
