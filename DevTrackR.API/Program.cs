@@ -1,4 +1,5 @@
 using DevTrackR.API.Persistence;
+using DevTrackR.API.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,10 +10,10 @@ var connectionString = builder.Configuration.GetConnectionString("DevTrackRCs");
 builder.Services
     .AddDbContext<DevTrackRContext>(o => o.UseSqlServer(connectionString));
 
-Console.WriteLine($"Connection String: {connectionString}");
-
 // builder.Services
 //     .AddDbContext<DevTrackRContext>(o => o.UseInMemoryDatabase("DevTrackR"));
+
+builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

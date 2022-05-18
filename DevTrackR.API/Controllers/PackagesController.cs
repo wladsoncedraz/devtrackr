@@ -1,8 +1,7 @@
 using DevTrackR.API.Entities;
 using DevTrackR.API.Models;
-using DevTrackR.API.Persistence;
+using DevTrackR.API.Persistence.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DevTrackR.API.Controllers
 {
@@ -10,16 +9,16 @@ namespace DevTrackR.API.Controllers
     [Route("api/packages")]
     public class PackagesController : ControllerBase
     {
-        private readonly DevTrackRContext _context;
-        public PackagesController(DevTrackRContext context)
+        private readonly IPackageRepository _repository;
+        public PackagesController(IPackageRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET api/packages
         [HttpGet]
         public IActionResult GetAll(){
-            var packages = _context.Packages;
+            var packages = _repository.GetAll();
 
             return Ok(packages);
         }
@@ -27,10 +26,7 @@ namespace DevTrackR.API.Controllers
         // GET api/packages/{code}
         [HttpGet("{code}")]
         public IActionResult GetByCode(string code){
-            var package = _context
-                .Packages
-                .Include(p => p.Updates)
-                .SingleOrDefault(p => p.Code == code);
+            var package = _repository.GetByCode(code);
 
             if(package == null)
                 return NotFound();
@@ -46,8 +42,7 @@ namespace DevTrackR.API.Controllers
 
             var package = new Package(packageModel.Title, packageModel.Weight);
 
-            _context.Packages.Add(package);
-            _context.SaveChanges();
+            _repository.Add(package);
 
             return CreatedAtAction(
                 "GetByCode", 
@@ -58,15 +53,13 @@ namespace DevTrackR.API.Controllers
         // POST api/packages/{code}/updates
         [HttpPost("{code}/updates")]
         public IActionResult PostUpdate(string code, AddPackageUpdateInputModel packageUpdateModel){
-            var package = _context
-                .Packages
-                .SingleOrDefault(p => p.Code == code);
+            var package = _repository.GetByCode(code);
 
             if(package == null)
                 return NotFound();
             
             package.AddUpdate(packageUpdateModel.Status, packageUpdateModel.Delivered);
-            _context.SaveChanges();
+            _repository.Update(package);
 
             return NoContent();
         }
