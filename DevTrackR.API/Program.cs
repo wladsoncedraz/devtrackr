@@ -1,6 +1,8 @@
 using DevTrackR.API.Persistence;
 using DevTrackR.API.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using SendGrid.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,10 +17,29 @@ builder.Services
 
 builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 
+var sendGridApiKey = builder.Configuration.GetSection("SendGridApiKey").Value;
+
+builder.Services.AddSendGrid(o => o.ApiKey = sendGridApiKey);
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Configurando documentacao atraves do swagger
+builder.Services.AddSwaggerGen(options => {
+    options.SwaggerDoc("v1", new OpenApiInfo{
+        Title = "DevTrackR.API",
+        Version = "v1",
+        Contact = new OpenApiContact{
+            Name = "Wladson",
+            Email = "contato@wladsondev.com.br",
+            Url = new Uri("https://www.linkedin.com/in/wladsoncedraz/")
+        }
+    });
+
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, "DevTrackR.API.xml");
+    options.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 
