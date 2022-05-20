@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "bin\\Release\\net6.0\\publish",
+    "appService.defaultWebAppToDeploy": "/subscriptions/057ecd50-73c9-4708-82b1-9668cfaba169/resourceGroups/proxtrackr_group/providers/Microsoft.Web/sites/proxtrackr"
+}

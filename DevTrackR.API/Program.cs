@@ -9,11 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DevTrackRCs");
 
-builder.Services
-    .AddDbContext<DevTrackRContext>(o => o.UseSqlServer(connectionString));
-
 // builder.Services
-//     .AddDbContext<DevTrackRContext>(o => o.UseInMemoryDatabase("DevTrackR"));
+//     .AddDbContext<DevTrackRContext>(o => o.UseSqlServer(connectionString));
+
+builder.Services
+    .AddDbContext<DevTrackRContext>(o => o.UseInMemoryDatabase("DevTrackR"));
 
 builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 
@@ -31,8 +31,8 @@ builder.Services.AddSwaggerGen(options => {
         Title = "DevTrackR.API",
         Version = "v1",
         Contact = new OpenApiContact{
-            Name = "Wladson",
-            Email = "contato@wladsondev.com.br",
+            Name = "Wladson Cedraz",
+            Email = "wladsoncedraz@live.com",
             Url = new Uri("https://www.linkedin.com/in/wladsoncedraz/")
         }
     });
@@ -44,7 +44,7 @@ builder.Services.AddSwaggerGen(options => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (true)
 {
     app.UseSwagger();
     app.UseSwaggerUI();

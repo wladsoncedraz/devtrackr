@@ -42,14 +42,14 @@ namespace DevTrackR.API.Controllers
         /// <summary>
         /// Cadastro de um pacote
         /// </summary>
-        /// <remark>
+        /// <remarks>
         /// {
         ///   "title": "Mouse Logitech MX 500",
         ///   "weight": 25,
         ///   "senderName": "Wladson",
         ///   "senderEmail": "tareb92636@hbehs.com"
         /// }
-        /// </remark>
+        /// </remarks>
         /// <param name="packageModel">Dados de um pacote</param>
         /// <returns>Objeto recem criado</returns>
         /// <response code="201">Cadastro realizado com Sucesso</response>
